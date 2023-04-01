@@ -12,7 +12,7 @@
           type="email"
           name="email"
           placeholder="Email"
-          [ngModel]="val.email"
+          ngModel
           #email="ngModel"
           required
           minlength="3"
@@ -41,20 +41,33 @@
           type="password"
           name="password"
           placeholder="Password"
-          [ngModel]="val.password"
+          ngModel
           #password="ngModel"
           required
-          minlength="3"
+          minlength="8"
           passwordStrength
         />
+        <mat-error *ngIf="password.errors?.required">
+          Password is mandatory.
+        </mat-error>
       </mat-form-field>
 
-      <mat-error *ngIf="password.errors?.required"
-        >Password is mandatory.</mat-error
+      <ng-container
+        *ngIf="
+          password.errors
+            | onlyOneError
+              : ['required', 'minlength', 'passwordStrength'] as error
+        "
       >
-      <mat-error *ngIf="password.errors?.passwordStrength">
-        Password must have uppercase, lowercase and numeric parts.
-      </mat-error>
+        <mat-error *ngIf="error.minlength">
+          Your password must have minimum
+          {{ error.minlength.requiredLength }} chars, but it only has
+          {{ error.minlength.actualLength }}
+        </mat-error>
+        <mat-error *ngIf="error.passwordStrength">
+          Password must have uppercase, lowercase and numeric parts.
+        </mat-error>
+      </ng-container>
 
       <button
         mat-raised-button
