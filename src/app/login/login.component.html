@@ -19,21 +19,23 @@
           maxlength="15"
           email
         />
+        <mat-error *ngIf="email.errors?.required"
+          >Email is mandatory.</mat-error
+        >
+        <mat-error *ngIf="email.errors?.minlength"
+          >Your email must have minimum
+          {{ email.errors.minlength.requiredLength }} chars, but it only has
+          {{ email.errors.minlength.actualLength }}
+        </mat-error>
+        <mat-error *ngIf="email.errors?.maxlength"
+          >Your email must have maximum
+          {{ email.errors.maxlength.requiredLength }} chars, but now has
+          {{ email.errors.maxlength.actualLength }}
+        </mat-error>
+        <mat-error *ngIf="email.errors?.email"
+          >This is not a valid email.</mat-error
+        >
       </mat-form-field>
-      <mat-error *ngIf="email.errors?.required">Email is mandatory.</mat-error>
-      <mat-error *ngIf="email.errors?.minlength"
-        >Your email must have minimum
-        {{ email.errors.minlength.requiredLength }} chars, but it only has
-        {{ email.errors.minlength.actualLength }}
-      </mat-error>
-      <mat-error *ngIf="email.errors?.maxlength"
-        >Your email must have maximum
-        {{ email.errors.maxlength.requiredLength }} chars, but now has
-        {{ email.errors.maxlength.actualLength }}
-      </mat-error>
-      <mat-error *ngIf="email.errors?.email"
-        >This is not a valid email.</mat-error
-      >
 
       <mat-form-field>
         <input
@@ -51,7 +53,6 @@
           Password is mandatory.
         </mat-error>
       </mat-form-field>
-
       <ng-container
         *ngIf="
           password.errors
@@ -59,14 +60,14 @@
               : ['required', 'minlength', 'passwordStrength'] as error
         "
       >
-        <mat-error *ngIf="error.minlength">
+        <div class="field-message" *ngIf="error.minlength">
           Your password must have minimum
           {{ error.minlength.requiredLength }} chars, but it only has
           {{ error.minlength.actualLength }}
-        </mat-error>
-        <mat-error *ngIf="error.passwordStrength">
+        </div>
+        <div class="field-message" *ngIf="error.passwordStrength">
           Password must have uppercase, lowercase and numeric parts.
-        </mat-error>
+        </div>
       </ng-container>
 
       <button
