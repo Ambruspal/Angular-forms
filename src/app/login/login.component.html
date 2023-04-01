@@ -45,8 +45,16 @@
           #password="ngModel"
           required
           minlength="3"
+          passwordStrength
         />
       </mat-form-field>
+
+      <mat-error *ngIf="password.errors?.required"
+        >Password is mandatory.</mat-error
+      >
+      <mat-error *ngIf="password.errors?.passwordStrength">
+        Password must have uppercase, lowercase and numeric parts.
+      </mat-error>
 
       <button
         mat-raised-button
