@@ -12,11 +12,11 @@
           type="email"
           name="email"
           placeholder="Email"
-          ngModel
+          [ngModel]="val.email"
           #email="ngModel"
           required
           minlength="3"
-          maxlength="12"
+          maxlength="15"
           email
         />
       </mat-form-field>
@@ -25,6 +25,11 @@
         >Your email must have minimum
         {{ email.errors.minlength.requiredLength }} chars, but it only has
         {{ email.errors.minlength.actualLength }}
+      </mat-error>
+      <mat-error *ngIf="email.errors?.maxlength"
+        >Your email must have maximum
+        {{ email.errors.maxlength.requiredLength }} chars, but now has
+        {{ email.errors.maxlength.actualLength }}
       </mat-error>
       <mat-error *ngIf="email.errors?.email"
         >This is not a valid email.</mat-error
@@ -36,14 +41,21 @@
           type="password"
           name="password"
           placeholder="Password"
-          ngModel
+          [ngModel]="val.password"
           #password="ngModel"
           required
           minlength="3"
         />
       </mat-form-field>
 
-      <button mat-raised-button color="primary" type="submit">Login</button>
+      <button
+        mat-raised-button
+        color="primary"
+        type="submit"
+        [disabled]="!loginForm.valid"
+      >
+        Login
+      </button>
     </form>
 
     <div class="form-val">{{ email.errors | json }}</div>
