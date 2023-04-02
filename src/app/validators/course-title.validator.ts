@@ -12,7 +12,7 @@ export function courseTitleValidator(
           (course) =>
             course.description.toLowerCase() === control.value.toLowerCase()
         );
-        return courseWithSameTitle ? { sameTitle: true } : null;
+        return courseWithSameTitle ? { titleExists: true } : null;
       })
     );
   };
