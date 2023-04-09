@@ -4,9 +4,9 @@
   <mat-horizontal-stepper
     class="mat-elevation-z5"
     labelPosition="bottom"
-    [linear]="true"
+    [linear]="false"
   >
-    <mat-step [stepControl]="step1.form">
+    <mat-step [stepControl]="step1.form" errorMessage="Landing page in error">
       <ng-template matStepLabel>course landing page detail</ng-template>
 
       <create-course-step-1 #step1></create-course-step-1>
@@ -17,7 +17,7 @@
         </button>
       </div>
     </mat-step>
-    <mat-step>
+    <mat-step errorMessage="Landing page in error">
       <ng-template matStepLabel>course pricing details</ng-template>
 
       <create-course-step-2></create-course-step-2>
