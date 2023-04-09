@@ -4,7 +4,10 @@
     <mat-radio-button value="premium">Premium</mat-radio-button>
   </mat-radio-group>
 
-  <file-upload requiredFileType="image/png"></file-upload>
+  <file-upload
+    requiredFileType="image/png"
+    formControlName="thumbnail"
+  ></file-upload>
 
   <mat-form-field>
     <input type="number" matInput placeholder="Price" formControlName="price" />
@@ -32,4 +35,8 @@
     ></mat-datepicker-toggle>
     <mat-date-range-picker #promoPicker></mat-date-range-picker>
   </mat-form-field>
+</div>
+
+<div>
+  {{ this.form.value | json }}
 </div>
