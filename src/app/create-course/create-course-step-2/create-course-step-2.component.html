@@ -4,6 +4,8 @@
     <mat-radio-button value="premium">Premium</mat-radio-button>
   </mat-radio-group>
 
+  <file-upload requiredFileType="image/png"></file-upload>
+
   <mat-form-field>
     <input type="number" matInput placeholder="Price" formControlName="price" />
   </mat-form-field>
@@ -16,6 +18,7 @@
         matStartDate
         placeholder="Start date"
         formControlName="promoStartAt"
+        #cf
       />
       <input matEndDate placeholder="End date" formControlName="promoEndAt" />
     </mat-date-range-input>
