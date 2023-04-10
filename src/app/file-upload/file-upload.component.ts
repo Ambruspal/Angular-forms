@@ -85,11 +85,11 @@ export class FileUploadComponent implements ControlValueAccessor, Validator {
     this.fileName = value;
   }
 
-  registerOnChange(onChange: any): void {
+  registerOnChange(onChange: () => void): void {
     this.onChange = onChange;
   }
 
-  registerOnTouched(onTouched: any): void {
+  registerOnTouched(onTouched: () => void): void {
     this.onTouched = onTouched;
   }
 
