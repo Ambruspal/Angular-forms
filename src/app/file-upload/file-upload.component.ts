@@ -6,6 +6,7 @@ import {
   ControlValueAccessor,
   NG_VALIDATORS,
   NG_VALUE_ACCESSOR,
+  ValidationErrors,
   Validator,
 } from "@angular/forms";
 import { noop, of, throwError } from "rxjs";
@@ -20,18 +21,25 @@ import { noop, of, throwError } from "rxjs";
       multi: true,
       useExisting: FileUploadComponent,
     },
+    {
+      provide: NG_VALIDATORS,
+      multi: true,
+      useExisting: FileUploadComponent,
+    },
   ],
 })
-export class FileUploadComponent implements ControlValueAccessor {
+export class FileUploadComponent implements ControlValueAccessor, Validator {
   @Input() requiredFileType: string;
 
   fileName: string = "";
   fileUploadError: boolean = false;
+  fileUploadSuccess: boolean = false;
   uploadProgress?: number;
 
   onChange: Function = (fileName: string) => {};
   onTouched: Function = () => {};
   disabled: boolean = false;
+  onValidatorChange: Function = () => {};
 
   constructor(private http: HttpClient) {}
 
@@ -65,7 +73,11 @@ export class FileUploadComponent implements ControlValueAccessor {
         if (event.type === HttpEventType.UploadProgress)
           this.uploadProgress = Math.round(100 * (event.loaded / event.total));
 
-        if (event.type === HttpEventType.Response) this.onChange(this.fileName);
+        if (event.type === HttpEventType.Response) {
+          this.fileUploadSuccess = true;
+          this.onChange(this.fileName);
+          this.onValidatorChange();
+        }
       });
   }
 
@@ -83,5 +95,21 @@ export class FileUploadComponent implements ControlValueAccessor {
 
   setDisabledState(disabled: boolean): void {
     this.disabled = disabled;
+  }
+
+  registerOnValidatorChange(onValidatorChange: () => void): void {
+    this.onValidatorChange = onValidatorChange;
+  }
+
+  validate(control: AbstractControl<any, any>): ValidationErrors {
+    if (this.fileUploadSuccess) return null;
+
+    const errors: any = {
+      reguiredFileTypes: this.requiredFileType,
+    };
+
+    if (this.fileUploadError) errors.uploadFailed = true;
+
+    return errors;
   }
 }
